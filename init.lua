@@ -138,6 +138,14 @@ vim.opt.updatetime = 250
 -- Displays which-key popup sooner
 vim.opt.timeoutlen = 300
 
+-- Change language
+vim.api.nvim_exec(
+  [[
+  language en_US.UTF-8
+]],
+  false
+)
+
 -- Configure how new splits should be opened
 vim.opt.splitright = true
 vim.opt.splitbelow = true
@@ -257,6 +265,8 @@ require('lazy').setup({
       },
     },
   },
+
+  { 'akinsho/toggleterm.nvim', version = '*', config = true },
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
