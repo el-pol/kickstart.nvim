@@ -121,6 +121,9 @@ end)
 -- Enable break indent
 vim.opt.breakindent = true
 
+-- Add space between horizontal splits
+vim.opt.laststatus = 3
+
 -- Save undo history
 vim.opt.undofile = true
 
@@ -864,6 +867,11 @@ require('lazy').setup({
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
     'folke/tokyonight.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
+    opts = {
+      on_colors = function(colors)
+        colors.border = 'green'
+      end,
+    },
     init = function()
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
