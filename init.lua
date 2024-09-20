@@ -862,28 +862,22 @@ require('lazy').setup({
     end,
   },
 
-  --{ -- You can easily change to a different colorscheme.
-  -- Change the name of the colorscheme plugin below, and then
-  -- change the command in the config to whatever the name of that colorscheme is.
+  {
+    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
+    'folke/tokyonight.nvim',
+    priority = 1000,
+    opts = {
+      on_colors = function(colors)
+        colors.border = 'green'
+      end,
+    },
+    -- init = function()
+    -- vim.cmd.colorscheme 'tokyonight-moon'
 
-  -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-  -- 'folke/tokyonight.nvim',
-  -- priority = 1000, -- Make sure to load this before all the other start plugins.
-  -- opts = {
-  --   on_colors = function(colors)
-  --     colors.border = 'green'
-  --   end,
-  -- },
-  -- init = function()
-  -- Load the colorscheme here.
-  -- Like many other themes, this one has different styles, and you could load
-  -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-  -- vim.cmd.colorscheme 'tokyonight-storm'
-
-  -- You can configure highlights by doing something like:
-  -- vim.cmd.hi 'Comment gui=none'
-  -- end,
-  --},
+    -- vim.cmd.colorscheme 'catppuccin-mocha'
+    -- vim.cmd.hi 'Comment gui=none'
+    -- end,
+  },
 
   -- Another theme
   {
@@ -897,14 +891,32 @@ require('lazy').setup({
     },
     init = function()
       vim.cmd.colorscheme 'catppuccin-mocha'
-
-      -- You can configure highlights by doing something like:
-      vim.cmd.hi 'Comment gui=none'
     end,
   },
 
+  { 'ellisonleao/gruvbox.nvim', priority = 1000, config = true },
+  { 'navarasu/onedark.nvim', priority = 1000, config = true },
+  -- {
+  --   'zenbones-theme/zenbones.nvim',
+  -- Optionally install Lush. Allows for more configuration or extending the colorscheme
+  -- If you don't want to install lush, make sure to set g:zenbones_compat = 1
+  -- In Vim, compat mode is turned on as Lush only works in Neovim.
+  --   dependencies = 'rktjmp/lush.nvim',
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = true,
+  --   opts = {},
+  -- },
+
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+
+  -- Adds MDX syntax highlight
+  {
+    'davidmh/mdx.nvim',
+    config = true,
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+  },
 
   -- Adds workaround for proper commenting JSX in React files
   {
@@ -912,6 +924,16 @@ require('lazy').setup({
     opts = {},
     event = 'VeryLazy',
     enabled = vim.fn.has 'nvim-0.10.0' == 1,
+  },
+  {
+    'kylechui/nvim-surround',
+    version = '*', -- Use for stability; omit to use `main` branch for the latest features
+    event = 'VeryLazy',
+    config = function()
+      require('nvim-surround').setup {
+        -- Configuration here, or leave empty to use defaults
+      }
+    end,
   },
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
@@ -929,7 +951,7 @@ require('lazy').setup({
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup()
+      -- require('mini.surround').setup()
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
@@ -949,6 +971,15 @@ require('lazy').setup({
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
+  },
+  {
+    'andrewferrier/debugprint.nvim',
+
+    -- opts = { … },
+
+    dependencies = {
+      'echasnovski/mini.nvim', -- Needed for :ToggleCommentDebugPrints (not needed for NeoVim 0.10+)
+    },
   },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
