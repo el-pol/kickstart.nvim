@@ -102,7 +102,7 @@ vim.g.have_nerd_font = true
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -869,30 +869,32 @@ require('lazy').setup({
     opts = {
       on_colors = function(colors)
         colors.border = 'green'
+        -- colors.bg_visual = 'green'
       end,
-    },
-    -- init = function()
-    -- vim.cmd.colorscheme 'tokyonight-moon'
-
-    -- vim.cmd.colorscheme 'catppuccin-mocha'
-    -- vim.cmd.hi 'Comment gui=none'
-    -- end,
-  },
-
-  -- Another theme
-  {
-    'catppuccin/nvim',
-    name = 'catppuccin',
-    priority = 1000,
-    opts = {
-      on_colors = function(colors)
-        colors.border = 'green'
+      on_highlights = function(hl, c)
+        hl.Visual = { bg = '#abdbe3' }
+        hl.VisualNOS = { bg = '#abdbe3' }
       end,
     },
     init = function()
-      vim.cmd.colorscheme 'catppuccin-mocha'
+      vim.cmd.colorscheme 'tokyonight-moon'
     end,
   },
+
+  -- Another theme
+  -- {
+  --   'catppuccin/nvim',
+  --   name = 'catppuccin',
+  --   priority = 1000,
+  --   opts = {
+  --     on_colors = function(colors)
+  --       colors.border = 'green'
+  --     end,
+  --   },
+  --   init = function()
+  --     vim.cmd.colorscheme 'catppuccin-mocha'
+  --   end,
+  -- },
 
   { 'ellisonleao/gruvbox.nvim', priority = 1000, config = true },
   { 'navarasu/onedark.nvim', priority = 1000, config = true },
@@ -916,6 +918,62 @@ require('lazy').setup({
     'davidmh/mdx.nvim',
     config = true,
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
+  },
+
+  -- Harpoon
+  {
+    'ThePrimeagen/harpoon',
+    branch = 'harpoon2',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      local harpoon = require 'harpoon'
+      harpoon:setup()
+
+      -- REQUIRED
+      vim.keymap.set('n', '<leader>a', function()
+        harpoon:list():add()
+      end)
+      vim.keymap.set('n', '<C-e>', function()
+        harpoon.ui:toggle_quick_menu(harpoon:list())
+      end)
+
+      -- vim.keymap.set('n', '<C-h>', function()
+      --   harpoon:list():select(1)
+      -- end)
+      -- vim.keymap.set('n', '<C-t>', function()
+      --   harpoon:list():select(2)
+      -- end)
+      -- vim.keymap.set('n', '<C-n>', function()
+      --   harpoon:list():select(3)
+      -- end)
+      -- vim.keymap.set('n', '<C-s>', function()
+      --   harpoon:list():select(4)
+      -- end)
+
+      -- Toggle previous & next buffers stored within Harpoon list
+      vim.keymap.set('n', '<C-S-P>', function()
+        harpoon:list():prev()
+      end)
+      vim.keymap.set('n', '<C-S-N>', function()
+        harpoon:list():next()
+      end)
+
+      harpoon:extend {
+        UI_CREATE = function(cx)
+          vim.keymap.set('n', '<C-v>', function()
+            harpoon.ui:select_menu_item { vsplit = true }
+          end, { buffer = cx.bufnr })
+
+          vim.keymap.set('n', '<C-x>', function()
+            harpoon.ui:select_menu_item { split = true }
+          end, { buffer = cx.bufnr })
+
+          vim.keymap.set('n', '<C-t>', function()
+            harpoon.ui:select_menu_item { tabedit = true }
+          end, { buffer = cx.bufnr })
+        end,
+      }
+    end,
   },
 
   -- Adds workaround for proper commenting JSX in React files
@@ -1019,7 +1077,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.debug',
   require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.autopairs',
   require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.avante',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
