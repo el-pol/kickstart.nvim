@@ -307,6 +307,12 @@ require('lazy').setup({
     },
   },
 
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    opts = {},
+  },
+
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
@@ -867,13 +873,18 @@ require('lazy').setup({
     'folke/tokyonight.nvim',
     priority = 1000,
     opts = {
+      styles = {
+        keywords = {
+          italic = false,
+        },
+      },
       on_colors = function(colors)
         colors.border = 'green'
         -- colors.bg_visual = 'green'
       end,
       on_highlights = function(hl, c)
-        hl.Visual = { bg = '#abdbe3' }
-        hl.VisualNOS = { bg = '#abdbe3' }
+        -- hl.Visual = { bg = '#abdbe3' }
+        -- hl.VisualNOS = { bg = '#abdbe3' }
       end,
     },
     init = function()
@@ -882,20 +893,22 @@ require('lazy').setup({
   },
 
   -- Another theme
-  -- {
-  --   'catppuccin/nvim',
-  --   name = 'catppuccin',
-  --   priority = 1000,
-  --   opts = {
-  --     on_colors = function(colors)
-  --       colors.border = 'green'
-  --     end,
-  --   },
-  --   init = function()
-  --     vim.cmd.colorscheme 'catppuccin-mocha'
-  --   end,
-  -- },
+  {
+    'catppuccin/nvim',
+    name = 'catppuccin',
+    priority = 1000,
+    opts = {
+      on_colors = function(colors)
+        colors.border = 'green'
+      end,
+    },
+    -- init = function()
+    --   vim.cmd.colorscheme 'catppuccin-mocha'
+    -- end,
+  },
 
+  { 'EdenEast/nightfox.nvim', priority = 1000, config = true },
+  { 'rose-pine/neovim', name = 'rose-pine', priority = 1000, config = true },
   { 'ellisonleao/gruvbox.nvim', priority = 1000, config = true },
   { 'navarasu/onedark.nvim', priority = 1000, config = true },
   -- {
@@ -1014,17 +1027,17 @@ require('lazy').setup({
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
       --  and try some other statusline plugin
-      local statusline = require 'mini.statusline'
+      -- local statusline = require 'mini.statusline'
       -- set use_icons to true if you have a Nerd Font
-      statusline.setup { use_icons = vim.g.have_nerd_font }
+      -- statusline.setup { use_icons = vim.g.have_nerd_font }
 
       -- You can configure sections in the statusline by overriding their
       -- default behavior. For example, here we set the section for
       -- cursor location to LINE:COLUMN
       ---@diagnostic disable-next-line: duplicate-set-field
-      statusline.section_location = function()
-        return '%2l:%-2v'
-      end
+      -- statusline.section_location = function()
+      --   return '%2l:%-2v'
+      -- end
 
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
