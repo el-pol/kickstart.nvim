@@ -868,29 +868,29 @@ require('lazy').setup({
     end,
   },
 
-  {
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
-    priority = 1000,
-    opts = {
-      styles = {
-        keywords = {
-          italic = false,
-        },
-      },
-      on_colors = function(colors)
-        colors.border = 'green'
-        -- colors.bg_visual = 'green'
-      end,
-      on_highlights = function(hl, c)
-        -- hl.Visual = { bg = '#abdbe3' }
-        -- hl.VisualNOS = { bg = '#abdbe3' }
-      end,
-    },
-    init = function()
-      vim.cmd.colorscheme 'tokyonight-moon'
-    end,
-  },
+  -- {
+  --   -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
+  --   'folke/tokyonight.nvim',
+  --   priority = 1000,
+  --   opts = {
+  --     styles = {
+  --       keywords = {
+  --         italic = false,
+  --       },
+  --     },
+  --     on_colors = function(colors)
+  --       colors.border = 'green'
+  --       -- colors.bg_visual = 'green'
+  --     end,
+  --     on_highlights = function(hl, c)
+  --       -- hl.Visual = { bg = '#abdbe3' }
+  --       -- hl.VisualNOS = { bg = '#abdbe3' }
+  --     end,
+  --   },
+  --   init = function()
+  --     vim.cmd.colorscheme 'tokyonight-moon'
+  --   end,
+  -- },
 
   -- Another theme
   {
@@ -902,9 +902,9 @@ require('lazy').setup({
         colors.border = 'green'
       end,
     },
-    -- init = function()
-    --   vim.cmd.colorscheme 'catppuccin-mocha'
-    -- end,
+    init = function()
+      vim.cmd.colorscheme 'catppuccin-macchiato'
+    end,
   },
 
   { 'EdenEast/nightfox.nvim', priority = 1000, config = true },
