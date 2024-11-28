@@ -898,8 +898,25 @@ require('lazy').setup({
     name = 'catppuccin',
     priority = 1000,
     opts = {
-      on_colors = function(colors)
-        colors.border = 'green'
+      no_italic = true,
+      styles = {
+        comments = { 'italic' },
+        conditionals = {},
+        loops = {},
+        functions = {},
+        keywords = {},
+        strings = {},
+        variables = {},
+        numbers = {},
+        booleans = {},
+        properties = {},
+        types = {},
+        operators = {},
+      },
+      custom_highlights = function(colors)
+        return {
+          WinSeparator = { fg = colors.flamingo },
+        }
       end,
     },
     init = function()
