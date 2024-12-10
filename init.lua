@@ -180,6 +180,9 @@ vim.keymap.set('i', 'jk', '<Esc>')
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
+-- Adds console log util
+vim.keymap.set('n', '<leader>cl', 'yiwoconsole.log("<C-r>":", <C-r>")<Esc>')
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -269,6 +272,15 @@ require('lazy').setup({
     },
   },
 
+  {
+    'folke/zen-mode.nvim',
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    },
+  },
+
   { 'akinsho/toggleterm.nvim', version = '*', config = true },
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
@@ -310,7 +322,13 @@ require('lazy').setup({
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    opts = {},
+    opts = {
+      sections = {
+        lualine_c = {
+          { 'filename', path = 1 }, -- 1: Relative path, 2: Absolute path
+        },
+      },
+    },
   },
 
   { -- Useful plugin to show you pending keybinds.
@@ -868,32 +886,22 @@ require('lazy').setup({
     end,
   },
 
-  -- {
-  --   -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-  --   'folke/tokyonight.nvim',
-  --   priority = 1000,
-  --   opts = {
-  --     styles = {
-  --       keywords = {
-  --         italic = false,
-  --       },
-  --     },
-  --     on_colors = function(colors)
-  --       colors.border = 'green'
-  --       -- colors.bg_visual = 'green'
-  --     end,
-  --     on_highlights = function(hl, c)
-  --       -- hl.Visual = { bg = '#abdbe3' }
-  --       -- hl.VisualNOS = { bg = '#abdbe3' }
-  --     end,
-  --   },
-  --   init = function()
-  --     vim.cmd.colorscheme 'tokyonight-moon'
-  --   end,
-  -- },
+  { -- Tokyo Night theme
+    'folke/tokyonight.nvim',
+    priority = 1000,
+    opts = {
+      styles = {
+        keywords = {
+          italic = false,
+        },
+      },
+      on_colors = function(colors)
+        colors.border = 'green'
+      end,
+    },
+  },
 
-  -- Another theme
-  {
+  { -- Catppuccin theme (active)
     'catppuccin/nvim',
     name = 'catppuccin',
     priority = 1000,
@@ -916,6 +924,7 @@ require('lazy').setup({
       custom_highlights = function(colors)
         return {
           WinSeparator = { fg = colors.flamingo },
+          LineNr = { fg = colors.overlay0 },
         }
       end,
     },
