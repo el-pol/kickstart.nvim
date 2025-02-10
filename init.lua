@@ -757,26 +757,31 @@ require('lazy').setup({
         -- Get the full file path
         local file_path = vim.api.nvim_buf_get_name(bufnr)
 
-        -- List of directories where formatting should be disabled
-        local disabled_dirs = {
-          -- Add your project paths here, for example:
-          '$HOME/gostudent/gomarketplace-frontend',
-          -- You can use vim.fn.expand to use environment variables:
-          -- vim.fn.expand("$HOME/projects/legacy-project"),
+        -- List of directories where eslint should be used
+        local eslint_dirs = {
+          vim.fn.expand '$HOME/gostudent/gomarketplace-frontend',
+          vim.fn.expand '$HOME/projects/some-other-eslint-project', -- Add more directories here
         }
 
-        -- Check if the current file is in a disabled directory
-        for _, dir in ipairs(disabled_dirs) do
-          local expanded_dir = vim.fn.expand(dir)
-
-          if vim.startswith(file_path, expanded_dir) then
-            return false -- Disable formatting for this file
+        -- Function to check if file is inside any of the specified directories
+        local function is_in_eslint_dir(path)
+          for _, dir in ipairs(eslint_dirs) do
+            if vim.startswith(path, dir) then
+              return true
+            end
           end
+          return false
         end
 
-        -- Disable "format_on_save lsp_fallback" for languages that don't
-        -- have a well standardized coding style. You can add additional
-        -- languages here or re-enable it for the disabled ones.
+        -- Determine the formatter dynamically
+        local formatters
+        if is_in_eslint_dir(file_path) then
+          formatters = { 'eslint_d', 'eslint', stop_after_first = true }
+        else
+          formatters = { 'prettierd', 'prettier', stop_after_first = true }
+        end
+
+        -- Disable "format_on_save lsp_fallback" for certain languages
         local disable_filetypes = { c = true, cpp = true }
         local lsp_format_opt
         if disable_filetypes[vim.bo[bufnr].filetype] then
@@ -784,21 +789,17 @@ require('lazy').setup({
         else
           lsp_format_opt = 'fallback'
         end
+
         return {
           timeout_ms = 500,
           lsp_format = lsp_format_opt,
+          formatters = formatters, -- Apply dynamic formatters
         }
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
-        -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        --
-        -- You can use 'stop_after_first' to run the first available formatter from the list
-        javascript = { 'prettierd', 'prettier', stop_after_first = true },
-        javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
-        typescript = { 'prettierd', 'prettier', stop_after_first = true },
-        typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+        -- JavaScript/TypeScript formatting will be handled dynamically by format_on_save
+        -- based on whether the file is in an eslint directory or not
       },
     },
   },
