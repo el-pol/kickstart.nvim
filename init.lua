@@ -754,6 +754,26 @@ require('lazy').setup({
     opts = {
       notify_on_error = false,
       format_on_save = function(bufnr)
+        -- Get the full file path
+        local file_path = vim.api.nvim_buf_get_name(bufnr)
+
+        -- List of directories where formatting should be disabled
+        local disabled_dirs = {
+          -- Add your project paths here, for example:
+          '$HOME/gostudent/gomarketplace-frontend',
+          -- You can use vim.fn.expand to use environment variables:
+          -- vim.fn.expand("$HOME/projects/legacy-project"),
+        }
+
+        -- Check if the current file is in a disabled directory
+        for _, dir in ipairs(disabled_dirs) do
+          local expanded_dir = vim.fn.expand(dir)
+
+          if vim.startswith(file_path, expanded_dir) then
+            return false -- Disable formatting for this file
+          end
+        end
+
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
