@@ -778,7 +778,7 @@ require('lazy').setup({
         if is_in_eslint_dir(file_path) then
           formatters = { 'eslint_d', 'eslint', stop_after_first = true }
         else
-          formatters = { 'prettierd', 'prettier', stop_after_first = true }
+          formatters = { 'stylua', 'prettierd', 'prettier', stop_after_first = true }
         end
 
         -- Disable "format_on_save lsp_fallback" for certain languages
