@@ -107,6 +107,8 @@ vim.opt.relativenumber = true
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
 
+-- vim.opt.termguicolors = true
+
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
@@ -185,6 +187,41 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 
 -- Adds console log util
 vim.keymap.set('n', '<leader>cl', 'yiwoconsole.log("<C-r>":", <C-r>")<Esc>')
+
+-- Theme switcher
+vim.keymap.set('n', '<leader>tc', function()
+  local themes = {
+    'catppuccin-macchiato',
+    'catppuccin-mocha',
+    'catppuccin-frappe',
+    'catppuccin-latte',
+    'tokyonight',
+    'tokyonight-night',
+    'tokyonight-storm',
+    'tokyonight-day',
+    'nightfox',
+    'dawnfox',
+    'dayfox',
+    'duskfox',
+    'nordfox',
+    'terafox',
+    'carbonfox',
+    'rose-pine',
+    'rose-pine-main',
+    'rose-pine-moon',
+    'rose-pine-dawn',
+    'gruvbox',
+    'onedark',
+  }
+
+  vim.ui.select(themes, {
+    prompt = 'Select colorscheme:',
+  }, function(choice)
+    if choice then
+      vim.cmd.colorscheme(choice)
+    end
+  end)
+end, { desc = '[T]heme [C]hanger' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -812,57 +849,6 @@ require('lazy').setup({
     },
   },
 
-  { -- Tokyo Night theme
-    'folke/tokyonight.nvim',
-    priority = 1000,
-    opts = {
-      styles = {
-        keywords = {
-          italic = false,
-        },
-      },
-      on_colors = function(colors)
-        colors.border = 'green'
-      end,
-    },
-  },
-
-  { -- Catppuccin theme (active)
-    'catppuccin/nvim',
-    name = 'catppuccin',
-    priority = 1000,
-    opts = {
-      no_italic = true,
-      styles = {
-        comments = { 'italic' },
-        conditionals = {},
-        loops = {},
-        functions = {},
-        keywords = {},
-        strings = {},
-        variables = {},
-        numbers = {},
-        booleans = {},
-        properties = {},
-        types = {},
-        operators = {},
-      },
-      custom_highlights = function(colors)
-        return {
-          WinSeparator = { fg = colors.flamingo },
-          LineNr = { fg = colors.overlay0 },
-        }
-      end,
-    },
-    init = function()
-      vim.cmd.colorscheme 'catppuccin-macchiato'
-    end,
-  },
-
-  { 'EdenEast/nightfox.nvim', priority = 1000, config = true },
-  { 'rose-pine/neovim', name = 'rose-pine', priority = 1000, config = true },
-  { 'ellisonleao/gruvbox.nvim', priority = 1000, config = true },
-  { 'navarasu/onedark.nvim', priority = 1000, config = true },
   -- {
   --   'zenbones-theme/zenbones.nvim',
   -- Optionally install Lush. Allows for more configuration or extending the colorscheme
@@ -1050,6 +1036,58 @@ require('lazy').setup({
   require 'kickstart.plugins.snacks',
   -- require 'kickstart.plugins.avante',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+
+  { -- Tokyo Night theme
+    'folke/tokyonight.nvim',
+    priority = 1000,
+    opts = {
+      styles = {
+        keywords = {
+          italic = false,
+        },
+      },
+      on_colors = function(colors)
+        colors.border = 'green'
+      end,
+    },
+  },
+
+  { -- Catppuccin theme (active)
+    'catppuccin/nvim',
+    name = 'catppuccin',
+    priority = 1000,
+    opts = {
+      no_italic = true,
+      styles = {
+        comments = { 'italic' },
+        conditionals = {},
+        loops = {},
+        functions = {},
+        keywords = {},
+        strings = {},
+        variables = {},
+        numbers = {},
+        booleans = {},
+        properties = {},
+        types = {},
+        operators = {},
+      },
+      custom_highlights = function(colors)
+        return {
+          WinSeparator = { fg = colors.flamingo },
+          LineNr = { fg = colors.overlay0 },
+        }
+      end,
+    },
+    init = function()
+      vim.cmd.colorscheme 'catppuccin-macchiato'
+    end,
+  },
+
+  { 'EdenEast/nightfox.nvim', priority = 1000, config = true },
+  { 'rose-pine/neovim', name = 'rose-pine', priority = 1000, config = true },
+  { 'ellisonleao/gruvbox.nvim', priority = 1000, config = true },
+  { 'navarasu/onedark.nvim', priority = 1000, config = true },
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
