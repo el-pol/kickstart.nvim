@@ -3,12 +3,11 @@ return {
     'saghen/blink.cmp',
     -- optional: provides snippets for the snippet source
     dependencies = {
-      -- 'Kaiser-Yang/blink-cmp-avante',
       'rafamadriz/friendly-snippets',
     },
 
     -- use a release tag to download pre-built binaries
-    version = 'v0.*',
+    version = '1.*',
     -- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
     -- build = 'cargo build --release',
     -- If you use nix, you can build from source using latest nightly rust with:
@@ -28,30 +27,30 @@ return {
         -- Sets the fallback highlight groups to nvim-cmp's highlight groups
         -- Useful for when your theme doesn't support blink.cmp
         -- will be removed in a future release
-        use_nvim_cmp_as_default = true,
         -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
         -- Adjusts spacing to ensure icons are aligned
         nerd_font_variant = 'mono',
       },
 
-      -- default list of enabled providers defined so that you can extend it
-      -- elsewhere in your config, without redefining it, due to `opts_extend`
-      sources = {
-        -- Add 'avante' to the list
-        default = { 'lsp', 'path', 'snippets', 'buffer' },
-        -- providers = {
-        --   avante = {
-        --     module = 'blink-cmp-avante',
-        --     name = 'Avante',
-        --     opts = {
-        --       -- options for blink-cmp-avante
-        --     },
-        --   },
-        -- },
+      completion = {
+        menu = {
+          draw = {
+            columns = { { 'kind_icon' }, { 'label', 'label_description', gap = 1 }, { 'source_name' } },
+          },
+        },
+        -- Show documentation when selecting a completion item
+        documentation = { auto_show = true, auto_show_delay_ms = 500 },
+
+        -- Display a preview of the selected item on the current line
+        ghost_text = { enabled = true },
       },
 
-      -- experimental signature help support
+      sources = {
+        default = { 'lsp', 'path', 'snippets', 'buffer' },
+      },
+
       signature = { enabled = true },
+      fuzzy = { implementation = 'prefer_rust_with_warning' },
     },
     -- allows extending the providers array elsewhere in your config
     -- without having to redefine it
