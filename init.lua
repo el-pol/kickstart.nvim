@@ -199,19 +199,11 @@ vim.keymap.set('n', '<leader>tc', function()
     'tokyonight-night',
     'tokyonight-storm',
     'tokyonight-day',
-    'nightfox',
-    'dawnfox',
-    'dayfox',
-    'duskfox',
-    'nordfox',
-    'terafox',
-    'carbonfox',
-    'rose-pine',
-    'rose-pine-main',
-    'rose-pine-moon',
-    'rose-pine-dawn',
-    'gruvbox',
-    'onedark',
+    'tokyobones',
+    'kanagawabones',
+    'zenbones',
+    'duckbones',
+    'seoulbones',
   }
 
   vim.ui.select(themes, {
@@ -1072,10 +1064,20 @@ require('lazy').setup({
     end,
   },
 
-  { 'EdenEast/nightfox.nvim', priority = 1000, config = true },
-  { 'rose-pine/neovim', name = 'rose-pine', priority = 1000, config = true },
-  { 'ellisonleao/gruvbox.nvim', priority = 1000, config = true },
-  { 'navarasu/onedark.nvim', priority = 1000, config = true },
+  {
+    'zenbones-theme/zenbones.nvim',
+    -- Optionally install Lush. Allows for more configuration or extending the colorscheme
+    -- If you don't want to install lush, make sure to set g:zenbones_compat = 1
+    -- In Vim, compat mode is turned on as Lush only works in Neovim.
+    dependencies = 'rktjmp/lush.nvim',
+    lazy = false,
+    priority = 1000,
+    -- you can set set configuration options here
+    -- config = function()
+    --     vim.g.zenbones_darken_comments = 45
+    --     vim.cmd.colorscheme('zenbones')
+    -- end
+  },
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
