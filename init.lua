@@ -820,20 +820,23 @@ require('lazy').setup({
           return false
         end
 
-        -- Determine the formatter dynamically
-        local formatters
-        if is_in_eslint_dir(file_path) then
-          formatters = { 'eslint_d', 'eslint', stop_after_first = true }
-        else
-          formatters = { 'stylua', 'prettierd', 'prettier', stop_after_first = true }
-        end
-
         -- Disable "format_on_save lsp_fallback" for certain languages
         local disable_filetypes = { c = true, cpp = true }
         if disable_filetypes[vim.bo[bufnr].filetype] then
           return nil
+        end
+
+        -- Determine the formatter dynamically
+        if is_in_eslint_dir(file_path) then
+          return {
+            formatters = { 'eslint_d', 'eslint' },
+            timeout_ms = 500,
+            lsp_format = 'fallback',
+            stop_after_first = true,
+          }
         else
           return {
+            formatters = { 'stylua', 'prettierd', 'prettier', stop_after_first = true },
             timeout_ms = 500,
             lsp_format = 'fallback',
           }
