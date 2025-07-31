@@ -1021,6 +1021,7 @@ require('lazy').setup({
   require 'kickstart.plugins.completion',
   -- require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.autotags',
   -- require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.snacks',
   -- require 'kickstart.plugins.avante',
